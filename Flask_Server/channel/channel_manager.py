@@ -11,7 +11,7 @@ def dispatch( msg ):
         channel_name = f'channel.{channel_name}'
 
     channel = importlib.import_module(channel_name)
-    return channel.apply()
+    return channel.apply( msg )
 
 def get_local_channels():
     paths = os.listdir('./channel/')
