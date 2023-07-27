@@ -9,9 +9,12 @@ def dispatch( msg ):
 
     if not channel_name.startswith('channel.'):
         channel_name = f'channel.{channel_name}'
-
     channel = importlib.import_module(channel_name)
-    return channel.apply( msg )
+    try:
+        return channel.apply( msg )
+    except Exception as e:
+        log.print_exc()
+        return str(e)
 
 def get_local_channels():
     paths = os.listdir('./channel/')

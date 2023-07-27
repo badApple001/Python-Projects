@@ -30,7 +30,11 @@ def apply(msg: dict):
                 })
         except Exception as e:
             return str(e)
-
+    else:
+        return jsonify({
+            "code": 404,
+            "err": "undefine api."
+        })
 
 def getVersionCode(v: str):
     return int(v.replace('.', ''))
