@@ -6,3 +6,9 @@
 2023-07-25 19:18:51 更新文件: channel.unity_subpackage  ok
 2023-07-25 19:19:13 更新文件: channel.channel_manager  ok
 2023-07-25 19:19:13 更新文件: channel.unity_subpackage  ok
+2023-07-27 16:54:47 更新文件: channel.channel_manager  ok
+2023-07-27 16:54:47 更新文件: channel.punchin_channel  ok
+2023-07-27 16:54:47 更新文件: channel.unity_subpackage  ok
+2023-07-27 16:56:30 更新文件: channel.channel_manager  ok
+2023-07-27 16:56:30 更新文件: channel.punchin_channel  ok
+2023-07-27 16:56:30 更新文件: channel.unity_subpackage  ok

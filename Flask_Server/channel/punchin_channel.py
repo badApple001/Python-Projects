@@ -3,7 +3,7 @@ from flask import send_from_directory
 import os
 import tools.log as log
 
-off_duty = 0
+off_duty = '0'
 
 def apply(msg: dict):
     global off_duty
@@ -19,7 +19,7 @@ def apply(msg: dict):
         return off_duty
     
     elif api == 'set_status':
-        off_duty = msg.get('new_status')
+        off_duty = str(msg.get('new_status'))
         log.debug(f'set status: {off_duty}')
 
 
