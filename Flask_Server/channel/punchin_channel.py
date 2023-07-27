@@ -21,7 +21,9 @@ def apply(msg: dict):
     elif api == 'set_status':
         off_duty = str(msg.get('new_status'))
         log.debug(f'set status: {off_duty}')
-
+        return jsonify({
+            "code": 200
+        })
 
     return jsonify({
             "code": 404,
