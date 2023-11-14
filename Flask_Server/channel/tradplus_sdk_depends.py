@@ -16,9 +16,12 @@ valid_code = [
     829  #叁一
 ]
 
+eromsg = ''
 
-def log( msg ):
-    print( msg )
+def logInfo( msg ):
+    global eromsg
+    log.debug(msg)
+    eromsg += msg
 
 def InitSDKMapping():
     data = {
@@ -29,12 +32,12 @@ def InitSDKMapping():
 
     data = j['data']
     if None == data:
-        log("数据解析异常 未知data")
+        logInfo("数据解析异常 未知data")
         return
 
     androidXSDKlist = data['androidVersions']
     if None == androidXSDKlist:
-        log("AndroidX SDK获取失败")
+        logInfo("AndroidX SDK获取失败")
         return
 
     for sdk in androidXSDKlist:
@@ -42,7 +45,7 @@ def InitSDKMapping():
 
 def InitConfig( sdk_version = "10.2.0.1"):
     if sdk_version not in sdkmapping.keys():
-        log(f"unknow version: {sdk_version}")
+        logInfo(f"unknow version: {sdk_version}")
         return
     
     data = {
@@ -52,11 +55,11 @@ def InitConfig( sdk_version = "10.2.0.1"):
     r = requests.post(tradplusConfigUrl, data=data)
     j = r.json()
     if 'data' not in j:
-        log('Get config fail')
+        logInfo('Get config fail')
         return
     d = j['data']
     if 'networks' not in d:
-        log('Get networks fail')
+        logInfo('Get networks fail')
         return
     networks = d['networks']
     for network in networks:
@@ -67,19 +70,23 @@ def InitConfig( sdk_version = "10.2.0.1"):
 
 def GetDependencies( sdk_version = "10.2.0.1" ):
     if len(adsChannel) == 0:
-        log('ads platform count must greater than 0')
+        logInfo('ads platform count must greater than 0')
         return
     
     if sdk_version not in sdkmapping.keys():
-        log(f"unknow version: {sdk_version}")
+        logInfo(f"unknow version: {sdk_version}")
         return
     
+    if len(adsmapping.keys()) == 0:
+        logInfo(f"adsmapping init fail")
+        return
+
     ads = []
     for channel in adsChannel:
         if channel in adsmapping.keys():
             ads.append(adsmapping[channel])
         else:
-            log(f'channel absence: {channel}')
+            logInfo(f'channel absence: {channel}')
     ads.extend(addCrossAndAdx)
     data = {
         'os': '1',
@@ -93,11 +100,11 @@ def GetDependencies( sdk_version = "10.2.0.1" ):
     r = requests.post(tradplusDependsUrl, data=data)
     j = r.json()
     if 'data' not in j:
-        log('fail dependen')
+        logInfo('fail dependen')
         return
     data = j['data']
     if 'appGradleCode' not in data:
-        log('not found apps build.gradle')
+        logInfo('not found apps build.gradle')
         return
     return data['appGradleCode']
 
@@ -109,7 +116,7 @@ def Run(  sdk_version = "10.2.0.1" ):
     if None == appGradleCode:
         return jsonify({
         "code": 2001,
-        "err": "GetDependencies fail."
+        "err": eromsg
         } )
     return jsonify({
         "code": 200,
@@ -117,7 +124,8 @@ def Run(  sdk_version = "10.2.0.1" ):
         } )
 
 def apply(msg: dict):
-    global adsChannel,sdk_version,region
+    global adsChannel,sdk_version,region,eromsg
+    eromsg = ''
     if 'channels' in msg.keys():
 
         req_code = msg['code']
