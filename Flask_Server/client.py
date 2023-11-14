@@ -8,7 +8,7 @@ data = {
     'token' : time.time(),
     'channel':'tradplus_sdk_depends',
     'code':829,
-    'channel':[''],
+    'adchannels':[''],
     'version':'',
     'region' : '2'
 }

@@ -12,3 +12,7 @@
 2023-07-27 16:56:30 更新文件: channel.channel_manager  ok
 2023-07-27 16:56:30 更新文件: channel.punchin_channel  ok
 2023-07-27 16:56:30 更新文件: channel.unity_subpackage  ok
+2023-11-14 22:46:26 更新文件: channel.channel_manager  ok
+2023-11-14 22:46:26 更新文件: channel.punchin_channel  ok
+2023-11-14 22:46:26 更新文件: channel.tradplus_sdk_depends  ok
+2023-11-14 22:46:26 更新文件: channel.unity_subpackage  ok

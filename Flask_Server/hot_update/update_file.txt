@@ -1,1 +1,1 @@
-channel.unity_subpackage,channel.channel_manager,channel.punchin_channel
+channel.channel_manager,channel.punchin_channel,channel.tradplus_sdk_depends,channel.unity_subpackage

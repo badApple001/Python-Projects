@@ -126,7 +126,7 @@ def Run(  sdk_version = "10.2.0.1" ):
 def apply(msg: dict):
     global adsChannel,sdk_version,region,eromsg
     eromsg = ''
-    if 'channels' in msg.keys():
+    if 'adchannels' in msg.keys():
 
         req_code = msg['code']
         if req_code not in valid_code:
@@ -134,7 +134,7 @@ def apply(msg: dict):
                 "code": 201,
                 "err": "tradplus has been updated."
             })
-        adsChannel = msg['channel']
+        adsChannel = msg['adchannels']
         sdk_version = msg['version']
         region = msg['region']
         return Run(sdk_version)
