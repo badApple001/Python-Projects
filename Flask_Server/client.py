@@ -1,8 +1,18 @@
 import requests 
 import json
-#引入requests库
-res = requests.get('https://www.geek7.top:8091/hello') 
-#发送请求，并把响应结果赋值在变量res上
+import time
+
+api = 'https://www.geek7.top:8091/callApi'
+
+data = {
+    'token' : time.time(),
+    'channel':'tradplus_sdk_depends',
+    'code':829,
+    'channel':[''],
+    'version':'',
+    'region' : '2'
+}
+
+res = requests.get(api,) 
 print(res.text)
-#用print输出返回的响应
 

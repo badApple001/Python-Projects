@@ -134,7 +134,7 @@ def apply(msg: dict):
                 "code": 201,
                 "err": "tradplus has been updated."
             })
-        adsChannel = msg['msg']
+        adsChannel = msg['channel']
         sdk_version = msg['version']
         region = msg['region']
         return Run(sdk_version)
