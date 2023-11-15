@@ -12,16 +12,16 @@ sdkmapping = {}
 adsmapping = {}
 addCrossAndAdx = []
 region = '2' # 1: 中国  2: 其它地区
-valid_code = [
-    829  #叁一
-]
+
+# 829 : 叁一
+valid_codes = [ '829' ]  
 
 eromsg = ''
 
 def logInfo( msg ):
     global eromsg
     log.debug(msg)
-    eromsg += msg
+    eromsg += f'{msg}\n'
 
 def InitSDKMapping():
     data = {
@@ -62,6 +62,7 @@ def InitConfig( sdk_version = "10.2.0.1"):
         logInfo('Get networks fail')
         return
     networks = d['networks']
+    addCrossAndAdx.clear()
     for network in networks:
         adsmapping[network['nameEn']]=network['networkId']
 
@@ -87,6 +88,9 @@ def GetDependencies( sdk_version = "10.2.0.1" ):
             ads.append(adsmapping[channel])
         else:
             logInfo(f'channel absence: {channel}')
+    
+    logInfo(','.join(adsChannel))
+
     ads.extend(addCrossAndAdx)
     data = {
         'os': '1',
@@ -124,15 +128,15 @@ def Run(  sdk_version = "10.2.0.1" ):
         } )
 
 def apply(msg: dict):
-    global adsChannel,sdk_version,region,eromsg
+    global adsChannel,region,eromsg,valid_codes
     eromsg = ''
     if 'adchannels' in msg.keys():
-
         req_code = msg['code']
-        if req_code not in valid_code:
+        if req_code not in valid_codes:
             return jsonify({
                 "code": 201,
-                "err": "tradplus has been updated."
+                "err": f"tradplus has been updated. :{req_code}",
+                'debug': len(valid_codes)
             })
         adsChannel = msg['adchannels']
         sdk_version = msg['version']
