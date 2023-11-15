@@ -128,9 +128,11 @@ def Run(  sdk_version = "10.2.0.1" ,adsChannel = None ,region = ""):
         "code": 205,
         "err": eromsg
         } )
+    
     return jsonify({
         "code": 200,
-        "data": appGradleCode
+        "data": appGradleCode,
+        'version':','.join(sdkmapping.keys())
         } )
 
 def proc(msg: dict):
