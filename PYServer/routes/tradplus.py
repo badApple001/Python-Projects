@@ -1,6 +1,7 @@
 from flask import jsonify
 import tools.log as log
 import requests
+import json
 
 tradplusSDKListUrl = 'https://docs.tradplusad.com/api/sdk/list'
 tradplusConfigUrl = 'https://docs.tradplusad.com/api/sdk/config'
@@ -9,6 +10,8 @@ tradplusDependsUrl = 'https://docs.tradplusad.com/api/sdk/package'
 sdkmapping = {}
 adsmapping = {}
 addCrossAndAdx = []
+u3dpluginmapping = {}
+
 # 289: 叁一
 valid_code = [  '829'  ]
 eromsg = ''
@@ -115,6 +118,39 @@ def GetDependencies( adsChannel,sdk_version = "10.2.0.1" ):
         return None
     return t['appGradleCode']
 
+def InitPluginMapping():
+    global u3dpluginmapping
+    data = {
+        'os' : '0'
+    }
+    res = requests.post('https://docs.tradplusad.com/api/sdk/list',data)
+    j = res.json()
+    if 'data' not in j:
+        print('download plugin list fail')
+        return
+    data = j['data']
+    if 'androidVersions' not in data:
+        print('download plugin list get android version fail')
+        return
+    androidVersions = data['androidVersions']
+    u3dpluginmapping = {}
+    for a in androidVersions:
+        if 'extra_info' not in a :
+            continue
+        extra_info = a['extra_info']
+        if extra_info == '' or extra_info == None:
+            continue
+        extra_info_json = json.loads(extra_info)
+        v = extra_info_json['u3d_version'].split(';')[-1]
+        u3dpluginmapping[a['version']] = v
+    print(u3dpluginmapping)
+
+def getUnityPluginUrl( sdkversion = ''):
+    if  sdkversion not in u3dpluginmapping.keys():
+        return ""
+    version = u3dpluginmapping[sdkversion]
+    return f"https://github.com/tradplus/unity_plugin/archive/refs/tags/{version}.zip"
+
 
 def Run(  sdk_version = "10.2.0.1" ,adsChannel = None ,region = ""):
     print('初始化SDK隐射表')
@@ -129,10 +165,15 @@ def Run(  sdk_version = "10.2.0.1" ,adsChannel = None ,region = ""):
         "err": eromsg
         } )
     
+    print('初始化u3d插件下载地址映射')
+    InitPluginMapping()
+    u3dzip = getUnityPluginUrl(sdk_version)
+
     return jsonify({
         "code": 200,
         "data": appGradleCode,
-        'version':','.join(sdkmapping.keys())
+        'version':','.join(sdkmapping.keys()),
+        'u3dzip':u3dzip
         } )
 
 def proc(msg: dict):
