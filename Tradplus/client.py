@@ -39,10 +39,18 @@ def Run( sdk_version = "10.2.0.1" ):
     if None == appGradleCode:
         log('GetDependencies fail')
     else:
+        print('input you "Assets\\Plugins\\Android" full path')
+        print('example: D:\\Git\\2dtoilet\\2dtoilet-client\\Assets\\Plugins')
+        print('Or you can try the Android folder to this window.')
         srcpath = input('input proj:\n')
         realpath = srcpath.replace('\\','/')
         implant.Run(realpath,appGradleCode)
 
 if __name__ == "__main__":
-    print('run...')
-    Run()
+    log('begin.')
+
+    version = input('input you tradplus version: ')
+    print(f'pulling the current version dependency of Tradplus: {version}')
+    Run( version )
+
+    log('end.')

@@ -61,6 +61,9 @@ def Run( projpath, dependsContent ):
                 output += line
 
     if len(output) != 0 and output != '':
+        print('Under implantation.')
         with open(projpath,'w',encoding='UTF-8') as fp:
             fp.write(output)
-
+        print('Complete implantation.')
+    else:
+        print('got a little problem')
