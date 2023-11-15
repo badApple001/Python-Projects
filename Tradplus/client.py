@@ -53,4 +53,4 @@ if __name__ == "__main__":
     print(f'pulling the current version dependency of Tradplus: {version}')
     Run( version )
 
-    log('end.')
+    input('end.')
