@@ -3,6 +3,7 @@
 import requests 
 import time
 import implant
+import downloadUnityPlugins
 
 api = 'https://www.geek7.top:8000/api'
 adsChannel = ['UnityAds']
@@ -58,6 +59,9 @@ def Run( sdk_version = "10.2.0.1",overrid = True ):
         srcpath = input('input proj:\n')
         realpath = srcpath.replace('\\','/')
         implant.Run(realpath,appGradleCode)
+        u3dzip = j['u3dzip']
+        print(f'download unity plugin: {u3dzip}')
+        downloadUnityPlugins.dowanlodZip(u3dzip,'./tradplus_unity_plugin_zips')
 
 if __name__ == "__main__":
     log('begin.')
