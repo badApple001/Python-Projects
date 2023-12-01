@@ -13,6 +13,14 @@ def Run( projpath, dependsContent ):
     tradplusContent = False
     admob = False
     admob_bidding = False
+
+    admob_bidding_str = "22.1.0.0"
+    with open('./bin/ADMOB BIDDING','r') as fp:
+        lines = fp.readlines()
+        if len(lines) > 0:
+            admob_bidding_str = lines[0]
+            print(f"ADMOB BIDDING : {admob_bidding_str}")
+
     for l in dependlines:
         if l.startswith('dependencies {'):
             tradplusContent = True
@@ -34,9 +42,9 @@ def Run( projpath, dependsContent ):
                 continue
             if admob_bidding and '// ' in real:
                 _import = '''    //ADMOB BIDDING
-    implementation ('com.applovin.mediation:google-adapter:22.1.0.0'){
+    implementation ('com.applovin.mediation:google-adapter:%s'){
         exclude module: "play-services-measurement-sdk-api"
-    }\n'''
+    }\n'''%(admob_bidding_str)
                 filterstr += _import
                 admob_bidding = False
             if '// Admob' in real:
